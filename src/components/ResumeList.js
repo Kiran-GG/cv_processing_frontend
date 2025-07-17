@@ -7,6 +7,9 @@ const ResumeList = () => {
   const [filteredResumes, setFilteredResumes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // ✅ FIX: Ensure REACT_APP_BACKEND_URL resolves from environment
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   const fetchResumes = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -15,13 +18,12 @@ const ResumeList = () => {
     }
 
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/cv/all`, {
+      const res = await axios.get(`${backendUrl}/api/cv/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
-      // Ensure the response is an array
       if (Array.isArray(res.data)) {
         setResumes(res.data);
         setFilteredResumes(res.data);
@@ -98,8 +100,9 @@ const ResumeList = () => {
                             return;
                           }
 
-                          const res = await axios.get(
-                            `${process.env.REACT_APP_BACKEND_URL}/api/cv/signed-url/${cv.fileName}`,
+                          // ✅ FIX: Use backend URL from resolved env variable
+                          const urlResponse = await axios.get(
+                            `${backendUrl}/api/cv/signed-url/${cv.fileName}`,
                             {
                               headers: {
                                 Authorization: `Bearer ${token}`
@@ -107,14 +110,15 @@ const ResumeList = () => {
                             }
                           );
 
-                          if (res.data) {
-                            window.open(res.data, "_blank");
+                          // ✅ FIX: Use window.open only if response.data is a valid string URL
+                          if (urlResponse.data && typeof urlResponse.data === "string") {
+                            window.open(urlResponse.data, "_blank");
                           } else {
                             alert("No signed URL received.");
                           }
                         } catch (err) {
-                          alert("Failed to open file");
                           console.error("Signed URL fetch failed:", err);
+                          alert("Failed to open file");
                         }
                       }}
                     >

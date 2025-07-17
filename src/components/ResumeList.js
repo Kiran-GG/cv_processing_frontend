@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './ResumeList.css';
 
-
 const ResumeList = () => {
   const [resumes, setResumes] = useState([]);
   const [filteredResumes, setFilteredResumes] = useState([]);
@@ -21,8 +20,17 @@ const ResumeList = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      setResumes(res.data);
-      setFilteredResumes(res.data);
+
+      // Ensure the response is an array
+      if (Array.isArray(res.data)) {
+        setResumes(res.data);
+        setFilteredResumes(res.data);
+      } else {
+        console.error("Invalid data format received:", res.data);
+        setResumes([]);
+        setFilteredResumes([]);
+      }
+
     } catch (err) {
       console.error("Failed to fetch resumes", err);
     }
@@ -46,7 +54,6 @@ const ResumeList = () => {
     <div className="resume-list-container">
       <h2>Uploaded Resumes</h2>
 
-      {/* ✅ Search input */}
       <input
         type="text"
         className="search-input"
@@ -55,14 +62,12 @@ const ResumeList = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* Refresh Button (centered) */}
       <div className="refresh-button-container">
         <button className="refresh-button" onClick={fetchResumes}>
           🔄 Refresh Resumes
         </button>
       </div>
 
-      {/* Resume table */}
       <table className="resume-table">
         <thead>
           <tr>
@@ -74,51 +79,60 @@ const ResumeList = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredResumes.map((cv, index) => (
-            <tr key={index}>
-              <td>{cv.fullName || "N/A"}</td>
-              <td>{cv.email}</td>
-              <td>{cv.phone}</td>
-              <td>{cv.skills}</td>
-              <td>
-                {cv.fileName ? (
-                  <button
-                    className="view-file-button"
-                    onClick={async () => {
-                      try {
-                        const token = localStorage.getItem("token");
-                        if (!token) {
-                          alert("You must be logged in to view files.");
-                          return;
-                        }
-
-                        const res = await axios.get(
-                          `${process.env.REACT_APP_BACKEND_URL}/api/cv/signed-url/${cv.fileName}`,
-                          {
-                            headers: {
-                              Authorization: `Bearer ${token}`
-                            }
+          {Array.isArray(filteredResumes) && filteredResumes.length > 0 ? (
+            filteredResumes.map((cv, index) => (
+              <tr key={index}>
+                <td>{cv.fullName || "N/A"}</td>
+                <td>{cv.email}</td>
+                <td>{cv.phone}</td>
+                <td>{cv.skills}</td>
+                <td>
+                  {cv.fileName ? (
+                    <button
+                      className="view-file-button"
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem("token");
+                          if (!token) {
+                            alert("You must be logged in to view files.");
+                            return;
                           }
-                        );
-                        if (res.data) {
-                          window.open(res.data, "_blank");
-                        } else {
-                          alert("No signed URL received.");
+
+                          const res = await axios.get(
+                            `${process.env.REACT_APP_BACKEND_URL}/api/cv/signed-url/${cv.fileName}`,
+                            {
+                              headers: {
+                                Authorization: `Bearer ${token}`
+                              }
+                            }
+                          );
+
+                          if (res.data) {
+                            window.open(res.data, "_blank");
+                          } else {
+                            alert("No signed URL received.");
+                          }
+                        } catch (err) {
+                          alert("Failed to open file");
+                          console.error("Signed URL fetch failed:", err);
                         }
-                      } catch (err) {
-                        alert("Failed to open file");
-                        console.error("Signed URL fetch failed:", err);
-                      }
-                    }}
-                  >
-                    View File
-                  </button>
-                ) : (
-                  "Not Available"
-                )}
+                      }}
+                    >
+                      View File
+                    </button>
+                  ) : (
+                    "Not Available"
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No resumes found.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

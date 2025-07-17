@@ -55,14 +55,14 @@ const ResumeList = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* ✅ Aesthetic Refresh Button (centered) */}
+      {/* Refresh Button (centered) */}
       <div className="refresh-button-container">
         <button className="refresh-button" onClick={fetchResumes}>
           🔄 Refresh Resumes
         </button>
       </div>
 
-      {/* ✅ Resume table */}
+      {/* Resume table */}
       <table className="resume-table">
         <thead>
           <tr>

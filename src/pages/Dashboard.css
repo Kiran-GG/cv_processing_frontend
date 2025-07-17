@@ -1,0 +1,80 @@
+/* Page background */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fa; /* Mild light gray-blue background */
+  color: #333;
+}
+
+/* Container styling */
+.dashboard-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Title */
+.dashboard-title {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* Button styles (shared) */
+.dashboard-button {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dashboard-button:hover {
+  background-color: #2980b9;
+}
+
+/* Section spacing */
+.dashboard-section {
+  margin-top: 30px;
+}
+
+/* Optional card-style section */
+.dashboard-card {
+  background-color: #f9fbfd;
+  border: 1px solid #e3e7ed;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Table enhancements if you have one */
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 12px;
+  border: 1px solid #dee2e6;
+  text-align: left;
+}
+
+.dashboard-table th {
+  background-color: #e9f2f9;
+  font-weight: bold;
+  color: #34495e;
+}
+
+.dashboard-table tr:nth-child(even) {
+  background-color: #f4f9fd;
+}

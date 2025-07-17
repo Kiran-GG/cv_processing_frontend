@@ -12,7 +12,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("https://landing-publisher-fin-british.trycloudflare.com/api/auth/login", {
+      const res = await axios.post("${process.env.REACT_APP_BACKEND_URL}/api/auth/login", {
         username,
         password,
       });

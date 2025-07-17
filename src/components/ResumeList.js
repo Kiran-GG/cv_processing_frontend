@@ -16,7 +16,7 @@ const ResumeList = () => {
     }
 
     try {
-      const res = await axios.get("https://landing-publisher-fin-british.trycloudflare.com/api/cv/all", {
+      const res = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/cv/all", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -93,7 +93,7 @@ const ResumeList = () => {
                         }
 
                         const res = await axios.get(
-                          `https://landing-publisher-fin-british.trycloudflare.com/api/cv/signed-url/${cv.fileName}`,
+                          `${process.env.REACT_APP_BACKEND_URL}/api/cv/signed-url/${cv.fileName}`,
                           {
                             headers: {
                               Authorization: `Bearer ${token}`

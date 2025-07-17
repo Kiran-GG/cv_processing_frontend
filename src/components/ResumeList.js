@@ -7,7 +7,7 @@ const ResumeList = () => {
   const [filteredResumes, setFilteredResumes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // ✅ FIX: Ensure REACT_APP_BACKEND_URL resolves from environment
+  // ✅ FIX 1: Use environment variable for backend URL
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const fetchResumes = async () => {
@@ -85,9 +85,9 @@ const ResumeList = () => {
             filteredResumes.map((cv, index) => (
               <tr key={index}>
                 <td>{cv.fullName || "N/A"}</td>
-                <td>{cv.email}</td>
-                <td>{cv.phone}</td>
-                <td>{cv.skills}</td>
+                <td>{cv.email || "N/A"}</td>
+                <td>{cv.phone || "N/A"}</td>
+                <td>{cv.skills || "N/A"}</td>
                 <td>
                   {cv.fileName ? (
                     <button
@@ -100,7 +100,7 @@ const ResumeList = () => {
                             return;
                           }
 
-                          // ✅ FIX: Use backend URL from resolved env variable
+                          // ✅ FIX 2: Fetch signed URL using secure endpoint
                           const urlResponse = await axios.get(
                             `${backendUrl}/api/cv/signed-url/${cv.fileName}`,
                             {
@@ -110,7 +110,7 @@ const ResumeList = () => {
                             }
                           );
 
-                          // ✅ FIX: Use window.open only if response.data is a valid string URL
+                          // ✅ FIX 3: Validate response and open file
                           if (urlResponse.data && typeof urlResponse.data === "string") {
                             window.open(urlResponse.data, "_blank");
                           } else {

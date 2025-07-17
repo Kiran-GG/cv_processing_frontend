@@ -16,7 +16,7 @@ const ResumeList = () => {
     }
 
     try {
-      const res = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/cv/all", {
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/cv/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

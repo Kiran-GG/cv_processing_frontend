@@ -27,7 +27,7 @@ const UploadCV = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("http://13.201.93.202:8080/api/cv/upload", formData, {
+      const response = await axios.post("https://nirvana-produces-stay-nn.trycloudflare.com/api/cv/upload", formData, {
         headers: {
           // DO NOT manually set Content-Type for FormData!
           'Authorization': `Bearer ${token}`

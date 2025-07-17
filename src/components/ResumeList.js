@@ -16,7 +16,7 @@ const ResumeList = () => {
     }
 
     try {
-      const res = await axios.get("http://13.201.93.202:8080/api/cv/all", {
+      const res = await axios.get("https://nirvana-produces-stay-nn.trycloudflare.com/api/cv/all", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -93,7 +93,7 @@ const ResumeList = () => {
                         }
 
                         const res = await axios.get(
-                          `http://13.201.93.202:8080/api/cv/signed-url/${cv.fileName}`,
+                          `https://nirvana-produces-stay-nn.trycloudflare.com/api/cv/signed-url/${cv.fileName}`,
                           {
                             headers: {
                               Authorization: `Bearer ${token}`

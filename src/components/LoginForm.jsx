@@ -12,7 +12,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://13.201.93.202:8080/api/auth/login", {
+      const res = await axios.post("https://nirvana-produces-stay-nn.trycloudflare.com/api/auth/login", {
         username,
         password,
       });

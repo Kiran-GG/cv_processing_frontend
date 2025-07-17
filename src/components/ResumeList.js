@@ -7,8 +7,8 @@ const ResumeList = () => {
   const [filteredResumes, setFilteredResumes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // ✅ FIX 1: Use environment variable for backend URL
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  // ✅ FIX 1: Ensure environment variable fallback (optional safety)
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
 
   const fetchResumes = async () => {
     const token = localStorage.getItem("token");
@@ -35,6 +35,8 @@ const ResumeList = () => {
 
     } catch (err) {
       console.error("Failed to fetch resumes", err);
+      setResumes([]); // 🧹 Clear existing in case of error
+      setFilteredResumes([]);
     }
   };
 
@@ -81,9 +83,9 @@ const ResumeList = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(filteredResumes) && filteredResumes.length > 0 ? (
+          {filteredResumes.length > 0 ? (
             filteredResumes.map((cv, index) => (
-              <tr key={index}>
+              <tr key={cv.id || index}>
                 <td>{cv.fullName || "N/A"}</td>
                 <td>{cv.email || "N/A"}</td>
                 <td>{cv.phone || "N/A"}</td>
@@ -100,7 +102,6 @@ const ResumeList = () => {
                             return;
                           }
 
-                          // ✅ FIX 2: Fetch signed URL using secure endpoint
                           const urlResponse = await axios.get(
                             `${backendUrl}/api/cv/signed-url/${cv.fileName}`,
                             {
@@ -110,7 +111,6 @@ const ResumeList = () => {
                             }
                           );
 
-                          // ✅ FIX 3: Validate response and open file
                           if (urlResponse.data && typeof urlResponse.data === "string") {
                             window.open(urlResponse.data, "_blank");
                           } else {

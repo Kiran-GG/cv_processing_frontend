@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils/auth";
 
 const instance = axios.create({
-  baseURL: "${process.env.REACT_APP_BACKEND_URL}/api",
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`,
 });
 
 instance.interceptors.request.use((config) => {

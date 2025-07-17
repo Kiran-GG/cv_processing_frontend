@@ -12,7 +12,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("https://nirvana-produces-stay-nn.trycloudflare.com/api/auth/login", {
+      const res = await axios.post("https://landing-publisher-fin-british.trycloudflare.com/api/auth/login", {
         username,
         password,
       });

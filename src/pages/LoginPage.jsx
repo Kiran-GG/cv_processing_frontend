@@ -14,7 +14,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://13.201.93.202:8080/api/auth/login', {
+      const response = await axios.post('https://landing-publisher-fin-british.trycloudflare.com/api/auth/login', {
         username,
         password,
       });

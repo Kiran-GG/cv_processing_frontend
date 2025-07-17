@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils/auth";
 
 const instance = axios.create({
-  baseURL: "https://nirvana-produces-stay-nn.trycloudflare.com/api",
+  baseURL: "https://landing-publisher-fin-british.trycloudflare.com/api",
 });
 
 instance.interceptors.request.use((config) => {
